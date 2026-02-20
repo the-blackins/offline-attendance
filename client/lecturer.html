@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Offline Attendance System — Lecturer Dashboard">
+    <meta name="theme-color" content="#0F0F1A">
+    <title>Lecturer Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="app-container wide">
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">📋 Attendance — Lecturer</div>
+            <div class="subtitle">Session Management & Dashboard</div>
+            <div id="connection-status" class="status-indicator disconnected">
+                <span class="status-dot"></span> Connecting...
+            </div>
+        </header>
+
+        <div id="alert-container"></div>
+
+        <!-- ═══ LOGIN SCREEN ═══ -->
+        <div id="screen-login" class="screen active">
+            <div class="login-container">
+                <div class="card">
+                    <h2 class="card-title"><span class="icon">🔐</span> Lecturer Login</h2>
+                    <form id="form-login">
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" class="form-input" placeholder="Enter password"
+                                required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">🔓 Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ DASHBOARD SCREEN ═══ -->
+        <div id="screen-dashboard" class="screen">
+
+            <!-- Tab Navigation -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="session">📡 Session</button>
+                <button class="nav-tab" data-tab="attendance">📊 Attendance</button>
+                <button class="nav-tab" data-tab="students">🎓 Students</button>
+            </div>
+
+            <!-- ─── Session Tab ─── -->
+            <div id="tab-session" class="tab-content">
+                <div class="card">
+                    <h2 class="card-title"><span class="icon">⚡</span> Session Control</h2>
+                    <div class="form-group">
+                        <label for="session-course-code">Course Code</label>
+                        <input type="text" id="session-course-code" class="form-input" placeholder="e.g. CSC301"
+                            autocomplete="off">
+                    </div>
+                    <button id="btn-start-session" class="btn btn-success">▶ Start Session</button>
+                    <button id="btn-end-session" class="btn btn-danger" style="display: none;">⏹ End Session</button>
+                </div>
+
+                <div id="session-display"></div>
+
+                <!-- QR Code -->
+                <div class="card">
+                    <h2 class="card-title"><span class="icon">📱</span> Session QR Code</h2>
+                    <div id="qr-display" class="qr-container">
+                        <div class="empty-state" style="padding: 20px;">
+                            <div class="message">Start a session to generate QR code</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── Attendance Tab ─── -->
+            <div id="tab-attendance" class="tab-content" style="display: none;">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-card present">
+                        <div class="stat-value" id="stat-present">0</div>
+                        <div class="stat-label">Present</div>
+                    </div>
+                    <div class="stat-card late">
+                        <div class="stat-value" id="stat-late">0</div>
+                        <div class="stat-label">Late</div>
+                    </div>
+                </div>
+
+                <!-- Attendance Table -->
+                <div class="card">
+                    <h2 class="card-title"><span class="icon">📋</span> Attendance Records</h2>
+                    <table class="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Student</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-tbody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px;">
+                                    No attendance records yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ─── Students Tab ─── -->
+            <div id="tab-students" class="tab-content" style="display: none;">
+                <div class="card">
+                    <h2 class="card-title"><span class="icon">🎓</span> Enrolled Students</h2>
+                    <div id="students-list">
+                        <div class="empty-state" style="padding: 20px;">
+                            <div class="message">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/js/socket.js"></script>
+    <script src="/js/lecturer.js"></script>
+</body>
+
+</html>
